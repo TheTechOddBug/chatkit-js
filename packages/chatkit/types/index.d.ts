@@ -478,6 +478,7 @@ export type HeaderIcon =
   | 'collapse-small'
   | 'star'
   | 'star-filled'
+  | 'bug'
   | 'chat-temporary'
   | 'settings-cog'
   | 'grid'
@@ -491,6 +492,7 @@ export type HeaderIcon =
   | 'history'
   | 'book-open'
   | 'compose'
+  | 'share'
   | 'light-mode'
   | 'dark-mode'
   | 'close';
