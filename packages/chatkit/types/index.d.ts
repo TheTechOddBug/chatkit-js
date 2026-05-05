@@ -115,6 +115,13 @@ export type ChatKitOptions = {
    * @see {@link WidgetsOption}
    */
   widgets?: WidgetsOption;
+
+  /**
+   * Configuration for the chat thread.
+   *
+   * @see {@link ThreadOption}
+   */
+  thread?: ThreadOption;
 };
 
 export type HeaderOption = {
@@ -250,6 +257,16 @@ export type ThreadItemActionsOption = {
   retry?: boolean;
 };
 
+export type ThreadOption = {
+  /**
+   * When true, automatically scrolls to the latest message while a response is
+   * streaming, but only if the user is already near the bottom.
+   *
+   * @default false
+   */
+  autoScroll?: boolean;
+};
+
 export type ComposerOption = {
   /**
    * The placeholder text to show in the composer input.
@@ -268,11 +285,15 @@ export type ComposerOption = {
      */
     enabled: boolean;
     /**
-     * The maximum size of an attachment in bytes.
+     * The maximum size of an attachment in bytes. Provide a number to apply the
+     * same limit to every attachment, or a record of MIME type patterns to
+     * per-type limits (for example, `{ "image/*": 10 * 1024 * 1024 }`).
+     * Add a `"*"` or `""` entry to set the fallback limit for files that do
+     * not match another MIME type pattern; otherwise they use the default limit.
      *
      * @default 100 * 1024 * 1024 (100MB)
      */
-    maxSize?: number;
+    maxSize?: number | Record<string, number>;
     /**
      * The maximum number of attachments that can be sent in a single message.
      *
@@ -1008,7 +1029,12 @@ export interface OpenAIChatKit extends HTMLElement {
      * rendered correctly.
      */
     files?: File[];
-    selectedToolId?: string;
+    /**
+     * The ID of the tool that should be selected in the composer.
+     * Pass `null` to clear the selection.
+     */
+    selectedToolId?: string | null;
+    /** The ID of the model that should be selected in the composer. */
     selectedModelId?: string;
   }): Promise<void>;
 
